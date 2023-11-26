@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Dashboard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #009688;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #009688;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome <%= staff[0].staff_name %> to Your Dashboard</h1>
+
+  <h2>Training Activities</h2>
+  <table>
+    <tr>
+      <th>Activity Name</th>
+      <th>Date</th>
+      <th>Duration (hours)</th>
+      <th>Description</th>
+    </tr>
+    <% staff.forEach(activity => { %>
+      <tr>
+        <td><%= activity.activity_name %></td>
+        <td><%= activity.date %></td>
+        <td><%= activity.duration_hours %></td>
+        <td><%= activity.description %></td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>

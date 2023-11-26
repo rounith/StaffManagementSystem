@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/public/styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h2 {
+      color: #009688;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #009688;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    form {
+      max-width: 300px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #009688;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Admin Dashboard</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Qualifications</th>
+      <th>Role</th>
+      <th>Contact</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    <% staff.forEach(member => { %>
+      <tr>
+        <td><%= member.id %></td>
+        <td><%= member.name %></td>
+        <td><%= member.qualifications %></td>
+        <td><%= member.role %></td>
+        <td><%= member.contact %></td>
+        <td><%= member.status %></td>
+        <td>
+          <% if (member.status === 'pending') { %>
+            <form action="/admin/approve/<%= member.id %>" method="post" style="display: inline;">
+              <input type="hidden" name="action" value="approve">
+              <button type="submit">Approve</button>
+            </form>
+            <form action="/admin/approve/<%= member.id %>" method="post" style="display: inline;">
+              <input type="hidden" name="action" value="reject">
+              <button type="submit">Reject</button>
+            </form>
+          <% } else { %>
+            <span><%= member.status %></span>
+          <% } %>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+  <h2>Training Activities</h2>
+  <form action="/admin/training/add" method="post">
+    <label for="staff_id">Staff Member:</label>
+    <select name="staff_id" required>
+      <% staff.forEach(member => { %>
+        <option value="<%= member.id %>"><%= member.name %></option>
+      <% }); %>
+    </select><br>
+    <label for="activity_name">Activity Name:</label>
+    <input type="text" name="activity_name" required><br>
+    <label for="date">Date:</label>
+    <input type="date" name="date" required><br>
+    <label for="duration_hours">Duration (hours):</label>
+    <input type="number" name="duration_hours" required><br>
+    <label for="description">Description:</label>
+    <textarea name="description" rows="4" cols="50"></textarea><br>
+    <button type="submit">Add Training</button>
+  </form>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Staff Member</th>
+      <th>Activity Name</th>
+      <th>Date</th>
+      <th>Duration (hours)</th>
+      <th>Description</th>
+    </tr>
+    <% training.forEach(activity => { %>
+      <tr>
+        <td><%= activity.id %></td>
+        <td><%= staff.find(member => member.id === activity.staff_id).name %></td>
+        <td><%= activity.activity_name %></td>
+        <td><%= activity.date %></td>
+        <td><%= activity.duration_hours %></td>
+        <td><%= activity.description %></td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>
