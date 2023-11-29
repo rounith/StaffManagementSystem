@@ -4,12 +4,12 @@ const mysql = require('mysql');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = 3306;
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Universe@123',
-  database: 'staff_management',
+  host: 'sql12.freesqldatabase.com',
+  user: 'sql12666251',
+  password: 'TTqL2THIaE',
+  database: 'sql12666251',
 });
 
 app.use(bodyParser.json());
